@@ -10,8 +10,8 @@ using MVCfacturacion.Services;
 
 namespace MVCfacturacion.Controllers
 {
-    [Route("api/[controller]")] //Esta línea se usa para asignar el acceso 
     [ApiController]
+    [Route("api/[controller]")] //Esta línea se usa para asignar el acceso 
     public class FacturaController : ControllerBase
     {
         //Creamos un atributo u objeto (traemos la clase desde Service) que será la representación del servicio que acabamos de crear

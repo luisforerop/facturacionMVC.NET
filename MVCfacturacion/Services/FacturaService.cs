@@ -68,10 +68,10 @@ namespace MVCfacturacion.Services
         public void enviar(Factura factura)
         {
             string emailOrigen = "soyelpruebas@gmail.com";
-            string emailDestino = "soyelpruebas@gmail.com";
+            string emailDestino = "soyelpruebas@gmail.com"; //Agregando un campo adicional en los documentos de la base de datos se podría incluir el correo electrónico del cliente para que el email se envíe en función de la empresa y sus datos respectivos.
             string key = "entrarsoyelpruebas2020";
             string asunto = factura.estado + " para el pago.";
-            string mensaje = "Cordial saludo " + factura.empresa + " <br> este es el " + factura.estado + " para que pague su factura por un total de " + factura.total; //podemos cargar html
+            string mensaje = "Cordial saludo " + factura.empresa + " <br>Este es el " + factura.estado + " para que pague su factura con id" + factura.Id + "por un total de " + factura.total; //Se podría cargar un HTML con la estructura de la factura
                        
 
             MailMessage oMailMessage = new MailMessage(emailOrigen, emailDestino, asunto, mensaje);   //Creamos un objeto de tipo MailMessage y lo instanciamos

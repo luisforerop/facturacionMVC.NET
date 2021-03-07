@@ -46,12 +46,15 @@ namespace MVCfacturacion
             //Inyección de configuación del servidor de factura
             services.Configure<FacturaSettings>(Configuration.GetSection(nameof(FacturaSettings)));
             services.AddSingleton<IFacturaSettings>(d => d.GetRequiredService<IOptions<FacturaSettings>>().Value); //Cuando usamos singleton inyectamos para todo el proyecto. Quiere decir que en todas las solicitudes que se procese es el mismo objeto.
-            
-            
-            
+
+            services.Configure<ClienteSettings>(Configuration.GetSection(nameof(ClienteSettings)));
+            services.AddSingleton<IClienteSettings>(d => d.GetRequiredService<IOptions<ClienteSettings>>().Value);
+
             //SERVICIOS
             //Inyección de servicio para obtener los datos de la colección factura
             services.AddSingleton<FacturaService>();
+
+            services.AddSingleton<ClienteService>();
             //Inyectamos enviarEmail
             services.AddSingleton<enviarEmail>();
             services.AddControllers();

@@ -45,5 +45,8 @@ namespace MVCfacturacion.Models
         [BsonElement("fechaPago")]
         public string fechaPago { get; set; }
 
+        [BsonElement("email")]
+        public string email { get; set; }
+
     } 
 }

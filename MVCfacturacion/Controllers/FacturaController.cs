@@ -17,8 +17,7 @@ namespace MVCfacturacion.Controllers
         //Creamos un atributo u objeto (traemos la clase desde Service) que será la representación del servicio que acabamos de crear
         public FacturaService _facturaService;
         //Vamos a utilizar el servicio inyectándolo
-        //Inyectamos enviarEmail
-        //public enviarEmail _enviarEmail;
+
         public FacturaController(FacturaService facturaService) //Quiero obtener FacturaService inyectado en facturaService (en el anterior lo inyectamos en settings)
         {
             _facturaService = facturaService; //lo inyectamos para ya tener hecho ese servicio en nuestro contructor Para ello debemos inyectarlo en Startup
@@ -54,13 +53,36 @@ namespace MVCfacturacion.Controllers
         [HttpPut]
         public ActionResult Update(Factura factura)
         {
-            
+            //Vamos a agregar la lógica 
+
+
+            switch (factura.estado)
+            {
+                case "Recién procesado":
+                    {
+                        factura.estado = "Primer recordatorio";
+                        break;
+                    }
+                case "Primer recordatorio":
+                    {
+                        factura.estado = "Segundo recordatorio";
+                        break;
+                    }
+                case "Segundo recordatorio":
+                    {
+                        factura.estado = "Desactivado";
+                        break;
+                    }
+                }
+
             _facturaService.Update(factura.Id, factura );
 
             //Ejecutamos envío de correo
             //_enviarEmail.envioCorreo();
             return Ok("Actualizado correctamente " + factura.estado);
         }
+
+
 
         [HttpDelete] //Si queremos enviar la petición por el path, es decir por el mismo navegador, usamos: [HttpDelete("{id}")]
         public ActionResult Delete(string id)

@@ -15,8 +15,9 @@ namespace MVCfacturacion.Services
         private IMongoCollection<Factura> _facturas;  //Acá pasamos la entidad models que creamos que representa la estructura en la colección, o sea Factura
         //Creamos un constructor que va a estar inyectado
         public enviarEmail _enviarEmail;
+        public ClienteService _clienteService;
         
-        public FacturaService(IFacturaSettings settings) //Pasamos los parámetro de la interface y usando settings indicamos que nuestra configuración se debe inyectar en settings
+        public FacturaService(IFacturaSettings settings, ClienteService clienteService) //Pasamos los parámetro de la interface y usando settings indicamos que nuestra configuración se debe inyectar en settings
         {
             var cliente = new MongoClient(settings.server); //Lo que tenemos inyectado settings.nombreDelServidor donde server va a tener el valor de "server" en el archivo appsettings.json, que lo obtuvimos en Startup.cs con Configuration
             //vamos al servidor
@@ -24,7 +25,17 @@ namespace MVCfacturacion.Services
             //obtenemos la base de datos
             _facturas = database.GetCollection<Factura>(settings.collection); //Usamos nuestro atributo privado de tipo IMongoCollection del modelo Facturas. <tipo> = Factura y que obtenga collection de lo que inyectamos.
             //y por último obtenemos la colección que queremos, que es Factura, para la cual usamos el atributo privado
+
+            _clienteService = clienteService; //Inyectamos los servicios de ClienteService
+
         }
+
+
+        /*public void correo(string nombreEmpresa)
+        {
+            var cliente = _clienteService.Get(nombreEmpresa);
+            
+        }*/
 
         //Quiero obtener la lista de un elemento del tipo Facturas con el método get
         public List<Factura> Get()
@@ -53,6 +64,7 @@ namespace MVCfacturacion.Services
         {
             _facturas.ReplaceOne(factura => factura.Id == id, factura); //Comparamos aquel que tenga el id que envíamos 
 
+            
             //Ejecutamos el proceso de envío
             enviar(factura);
         }
@@ -67,8 +79,14 @@ namespace MVCfacturacion.Services
         ///Este metodo se puede refactorizar creando otro servicio que se dedique exclusivamente al envío de correos electrónicos y haciendo una segunda petición (al segundo servidor) desde el cliente de angular
         public void enviar(Factura factura)
         {
+            //ESTAMOS INTENTANDO ACCEDER A LOS DATOS OBTENIDOS POR EL SERVICIO DE CLIENTE
+            List<Cliente> cliente = _clienteService.Get(factura.empresa);
+            
+            Console.WriteLine(cliente);
+            
+
             string emailOrigen = "soyelpruebas@gmail.com";
-            string emailDestino = "soyelpruebas@gmail.com"; //Agregando un campo adicional en los documentos de la base de datos se podría incluir el correo electrónico del cliente para que el email se envíe en función de la empresa y sus datos respectivos.
+            string emailDestino = factura.email; //Agregando un campo adicional en los documentos de la base de datos se podría incluir el correo electrónico del cliente para que el email se envíe en función de la empresa y sus datos respectivos.
             string key = "entrarsoyelpruebas2020";
             string asunto = factura.estado + " para el pago.";
             string mensaje = "Cordial saludo " + factura.empresa + " <br>Este es el " + factura.estado + " para que pague su factura con id" + factura.Id + "por un total de " + factura.total; //Se podría cargar un HTML con la estructura de la factura

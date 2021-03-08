@@ -14,7 +14,7 @@ namespace MVCfacturacion.Services
     {
         private IMongoCollection<Factura> _facturas;  //Acá pasamos la entidad models que creamos que representa la estructura en la colección, o sea Factura
         //Creamos un constructor que va a estar inyectado
-        public enviarEmail _enviarEmail;
+        //public enviarEmail _enviarEmail;
         public ClienteService _clienteService;
         
         public FacturaService(IFacturaSettings settings, ClienteService clienteService) //Pasamos los parámetro de la interface y usando settings indicamos que nuestra configuración se debe inyectar en settings
@@ -31,11 +31,6 @@ namespace MVCfacturacion.Services
         }
 
 
-        /*public void correo(string nombreEmpresa)
-        {
-            var cliente = _clienteService.Get(nombreEmpresa);
-            
-        }*/
 
         //Quiero obtener la lista de un elemento del tipo Facturas con el método get
         public List<Factura> Get()
@@ -74,19 +69,28 @@ namespace MVCfacturacion.Services
         {
             _facturas.DeleteOne(d => d.Id == id);
         }
+        public List<Cliente> GetClientes(string nombreEmpresa)
+        {
+            var cliente = _clienteService.Get(nombreEmpresa);
+            
+            //var ejemplo2 = ejemplo.empresa;
+            return cliente;
+            
+        }/**/
 
         ///Método de envío de correos electrónicos =======================================
         ///Este metodo se puede refactorizar creando otro servicio que se dedique exclusivamente al envío de correos electrónicos y haciendo una segunda petición (al segundo servidor) desde el cliente de angular
         public void enviar(Factura factura)
         {
+            var cliente = GetClientes(factura.empresa); //Obtenemos un lista con todos los clientes que tengan el nombre de la empresa
+            var email = cliente[0].email; //De la lista cliente que obtuvimos del metodo GetCliente, elegimos el atributo email del primer item
             //ESTAMOS INTENTANDO ACCEDER A LOS DATOS OBTENIDOS POR EL SERVICIO DE CLIENTE
-            List<Cliente> cliente = _clienteService.Get(factura.empresa);
-            
-            Console.WriteLine(cliente);
+            //List<Cliente> cliente = _clienteService.Get(factura.empresa);
+            //Console.WriteLine(cliente);
             
 
             string emailOrigen = "soyelpruebas@gmail.com";
-            string emailDestino = factura.email; //Agregando un campo adicional en los documentos de la base de datos se podría incluir el correo electrónico del cliente para que el email se envíe en función de la empresa y sus datos respectivos.
+            string emailDestino = email; //Agregando un campo adicional en los documentos de la base de datos se podría incluir el correo electrónico del cliente para que el email se envíe en función de la empresa y sus datos respectivos.
             string key = "entrarsoyelpruebas2020";
             string asunto = factura.estado + " para el pago.";
             string mensaje = "Cordial saludo " + factura.empresa + " <br>Este es el " + factura.estado + " para que pague su factura con id" + factura.Id + "por un total de " + factura.total; //Se podría cargar un HTML con la estructura de la factura

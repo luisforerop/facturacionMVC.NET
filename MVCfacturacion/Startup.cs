@@ -39,6 +39,7 @@ namespace MVCfacturacion
                     builder.WithOrigins("*");   //Especificamos desde donde vamos a permitir la conexión de datos. Con el "*" permitimos peticiones desde cualquier dirección. Si solo queremos permitir la conxión desde un sitio determinado, debemos especificar la url.
                     builder.WithHeaders("*"); //Con esta instrucción aceptamos todas las peticiones enviadas por post para inserción de datos.
                     builder.WithMethods("*"); //Con esta instrucción aceptamos las peticiones de tipo put
+                    
                 }); 
             }); //=============> PASAMOS A CONFIGURAR "configure", más abajo
 

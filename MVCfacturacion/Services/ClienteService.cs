@@ -24,7 +24,12 @@ namespace MVCfacturacion.Services
 
         public List<Cliente> Get(string nombre)
         {
-            return _clientes.Find(f => f.empresa == nombre).ToList(); //Configuramos el controlador para que obtenga el valor por la URL
+            return _clientes.Find(c => c.empresa == nombre).ToList(); //Configuramos el controlador para que obtenga el valor por la URL
+        }
+
+        public List<Cliente> Get()
+        {
+            return _clientes.Find(c => true).ToList(); //Configuramos el controlador para que obtenga el valor por la URL
         }
 
         public Cliente Create(Cliente cliente) //Lo que vamos a recibir, que es un modelo Factura, espacio como vamos a llamar a lo que vamos a recibir.

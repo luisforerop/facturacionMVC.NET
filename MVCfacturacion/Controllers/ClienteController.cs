@@ -30,6 +30,14 @@ namespace MVCfacturacion.Controllers
             var cliente = _clienteService.Get(empresa);
             return cliente;         }
 
+        [HttpGet]
+
+        //Creamos un método que devuelva un ActionResult del tipo <Factura> (modelo. Por eso agregamos la carpeta Models) Nombramos el método como Get()
+        public ActionResult<List<Cliente>> Get() 
+        {
+            return _clienteService.Get(); 
+        }
+
         [HttpPost]
 
         public ActionResult<Cliente> Create(Cliente cliente) 

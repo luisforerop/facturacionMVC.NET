@@ -55,7 +55,7 @@ namespace MVCfacturacion.Controllers
             return Ok("Actualizado correctamente " + cliente.empresa);
         }
 
-        [HttpDelete] //Si queremos enviar la petición por el path, es decir por el mismo navegador, usamos: [HttpDelete("{id}")]
+        [HttpDelete("{id}")] //Si queremos enviar la petición por el path, es decir por el mismo navegador, usamos: [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
             _clienteService.Delete(id);

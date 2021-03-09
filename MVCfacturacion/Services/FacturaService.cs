@@ -82,6 +82,7 @@ namespace MVCfacturacion.Services
         ///Este metodo se puede refactorizar creando otro servicio que se dedique exclusivamente al envío de correos electrónicos y haciendo una segunda petición (al segundo servidor) desde el cliente de angular
         public void enviar(Factura factura)
         {
+            Console.WriteLine(factura.empresa);
             var cliente = GetClientes(factura.empresa); //Obtenemos un lista con todos los clientes que tengan el nombre de la empresa
             var email = cliente[0].email; //De la lista cliente que obtuvimos del metodo GetCliente, elegimos el atributo email del primer item
             //ESTAMOS INTENTANDO ACCEDER A LOS DATOS OBTENIDOS POR EL SERVICIO DE CLIENTE

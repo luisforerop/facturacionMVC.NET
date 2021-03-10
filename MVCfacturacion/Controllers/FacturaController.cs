@@ -54,27 +54,30 @@ namespace MVCfacturacion.Controllers
         public ActionResult Update(Factura factura)
         {
             //Vamos a agregar la lógica 
-
-
-            switch (factura.estado)
-            {
-                case "Recién procesado":
-                    {
-                        factura.estado = "Primer recordatorio";
-                        break;
-                    }
-                case "Primer recordatorio":
-                    {
-                        factura.estado = "Segundo recordatorio";
-                        break;
-                    }
-                case "Segundo recordatorio":
-                    {
-                        factura.estado = "Desactivado";
-                        break;
-                    }
+            if (factura.pago) {//Recibimos una petición porque se pagó, cambiamos el estado a pago, sino ejecutamos el switch
+                factura.estado = "Pagado";
+            }
+            else { 
+                switch (factura.estado)
+                {
+                    case "Recién procesado":
+                        {
+                            factura.estado = "Primer recordatorio";
+                            break;
+                        }
+                    case "Primer recordatorio":
+                        {
+                            factura.estado = "Segundo recordatorio";
+                            break;
+                        }
+                    case "Segundo recordatorio":
+                        {
+                            factura.estado = "Desactivado";
+                            break;
+                        }
                 }
 
+            }//fin else
             _facturaService.Update(factura.Id, factura );
 
             //Ejecutamos envío de correo

@@ -2,6 +2,7 @@
 using System.Net.Mail;
 using MVCfacturacion.Models;
 
+
 namespace MVCfacturacion.Services
 {
     public class enviarEmail 
@@ -15,6 +16,7 @@ namespace MVCfacturacion.Services
 
         public void envioCorreo(infoEmail email)
         {
+            /*
             //var datos = new infoEmail();
 
             //string emailOrigen = "soyelpruebas@gmail.com" ;
@@ -35,7 +37,7 @@ namespace MVCfacturacion.Services
             //oSmtpClient.Host = "smtp.gmail.com";
             oSmtpClient.Port = 587; //Puerto abierto de gmail
             oSmtpClient.Credentials = new System.Net.NetworkCredential(email.emailOrigen, email.key);//Establecemos las credenciales de envío
-            oSmtpClient.Send(oMailMessage);
+            oSmtpClient.Send(oMailMessage);*/
             
         }
         public void sendIt(string i)
@@ -44,5 +46,12 @@ namespace MVCfacturacion.Services
             //enviarEmail.oSmtpClient.Send(oMailMessage); //configuramos el envío
 
             }
+
+        public string plantillaEmail()
+        {
+            string cuerpoCorreo = "Este es una prueba para verificar que inyecte bien" ;
+            
+            return cuerpoCorreo;
+        }
     }
 }

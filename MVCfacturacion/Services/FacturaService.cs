@@ -17,7 +17,7 @@ namespace MVCfacturacion.Services
         //public enviarEmail _enviarEmail;
         public ClienteService _clienteService;
         
-        public FacturaService(IFacturaSettings settings, ClienteService clienteService) //Pasamos los parámetro de la interface y usando settings indicamos que nuestra configuración se debe inyectar en settings
+        public FacturaService(IFacturaSettings settings, ClienteService clienteService, enviarEmail bodyEmail) //Pasamos los parámetro de la interface y usando settings indicamos que nuestra configuración se debe inyectar en settings
         {
             var cliente = new MongoClient(settings.server); //Lo que tenemos inyectado settings.nombreDelServidor donde server va a tener el valor de "server" en el archivo appsettings.json, que lo obtuvimos en Startup.cs con Configuration
             //vamos al servidor
